@@ -30,7 +30,7 @@
  * @addtogroup SYSTICK
  * @{
  */
-void      SYSTICK_Init    (uint32_t freq);
+uint8_t   SYSTICK_Init    (uint32_t freq);
 uint32_t  SYSTICK_GetTime (void);
 
 /**

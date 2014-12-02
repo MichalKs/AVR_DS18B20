@@ -137,7 +137,10 @@ void DS18B20_ReadScratchPad(uint8_t* buf) {
 
   for (int i = 0; i < 9; i++) {
     buf[i] = ONEWIRE_ReadByte();
+    printf("0x%02x ", buf[i]);
+
   }
+  printf("\r\n");
 
 }
 /**
@@ -152,6 +155,8 @@ double DS18B20_ReadTemp(void) {
   DS18B20_ReadScratchPad(mem);
 
   DS18B20_Memory* dsMem = (DS18B20_Memory*)mem;
+
+//  return (dsMem->tempLSB | ((int16_t)dsMem->tempMSB>>8));
 
   uint8_t t1 = (dsMem->tempLSB >> 4) & 0x0f;
 

@@ -100,7 +100,7 @@ void ONEWIRE_WriteBit(uint8_t bit) {
   }
   TIMER_DelayUS(60);
   ONEWIRE_HAL_ReleaseBus(); // this is necessary for 0 bit
-  TIMER_DelayUS(1); // this delay is crucial - doesn't work without it
+  TIMER_DelayUS(2); // this delay is crucial - doesn't work without it
 }
 
 /**

@@ -136,7 +136,7 @@ void softTimerCallback(void) {
 
   case 1:
     temp = DS18B20_ReadTemp();
-    println("Temperature = %.2f", temp);
+    println("Temperature = %d", (int)temp);
     break;
 
   }

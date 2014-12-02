@@ -22,7 +22,7 @@
 #define TIMERS_H_
 
 #include <inttypes.h>
-
+#include <util/delay.h>
 /**
  * @defgroup  TIMER TIMER
  * @brief     Timing control functions
@@ -33,8 +33,9 @@
  * @{
  */
 
+#define   TIMER_DelayUS(us) _delay_us(us)
+
 void      TIMER_Init              (uint32_t freq);
-void      TIMER_DelayUS           (uint32_t us);
 void      TIMER_Delay             (uint32_t ms);
 uint8_t   TIMER_DelayTimer        (uint32_t ms, uint32_t startTime);
 int8_t    TIMER_AddSoftTimer      (uint32_t maxVal, void (*fun)(void));

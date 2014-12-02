@@ -35,14 +35,22 @@ static volatile uint32_t sysTicks;  ///< Delay timer.
  * @brief Initialize the SysTick with a given frequency
  * @param freq SysTick frequency
  * TODO Set desired frequency
+ * @retval 1 Clock initialization failure
+ * @retval 0 Clock initialized properly
  */
-void SYSTICK_Init(uint32_t freq) {
+uint8_t SYSTICK_Init(uint32_t freq) {
 
   // board is running at 16 MHz
-  TCCR0 = (1<<CS01) | (1<<CS00); // prescaler 64
-  TIMSK = (1<<TOIE0); // enable overflow interrupt
 
+  TCCR0 = (1<<CS01) | (1<<CS00); // prescaler 64
+  TCCR0 |= (1<<WGM01); // Compare mode
+
+  TIMSK = (1<<OCIE0); // enable overflow interrupt
+  // 16 000 000/64/freq = OCR0
+  OCR0 = 16000000UL/64/freq;
   sei(); // enable interrupts to start counting time
+
+  return 0;
 }
 /**
  * @brief Get the system time
@@ -56,7 +64,7 @@ uint32_t SYSTICK_GetTime(void) {
  * @brief Interrupt handler for SysTick.
  * @param TIMER0_OVF_vect
  */
-ISR(TIMER0_OVF_vect) {
+ISR(TIMER0_COMP_vect) {
 
   sysTicks++; // Update system time
 

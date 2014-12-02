@@ -103,7 +103,9 @@ void TIMER_Delay(uint32_t ms) {
  * @warning This is a blocking function. Use with care!
  * TODO Implement for AVR
  */
-void TIMER_DelayUS(uint32_t us) {
+//void TIMER_DelayUS(uint32_t us) {
+
+
 //
 //  uint32_t startTime = TIMER14_GetTime();
 //  uint32_t currentTime;
@@ -118,7 +120,7 @@ void TIMER_DelayUS(uint32_t us) {
 //      break;
 //    }
 //  }
-}
+//}
 
 /**
  * @brief Nonblocking delay function using
