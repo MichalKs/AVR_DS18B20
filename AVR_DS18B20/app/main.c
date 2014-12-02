@@ -23,6 +23,8 @@
 #include <timers.h>
 #include <comm.h>
 #include <printf_setup.h>
+#include <onewire.h>
+#include <ds18b20.h>
 
 #define SYSTICK_FREQ 1000 ///< Frequency of the SysTick set at 1kHz.
 #define COMM_BAUD_RATE 115200UL ///< Baud rate for communication with PC
@@ -99,6 +101,9 @@ int main(void) {
 	LED_Init(LED2); // Add an LED
 	LED_ChangeState(LED2, LED_ON);
 
+  ONEWIRE_Init(); // initialize ONEWIRE bus
+  DS18B20_Init(); // initialize DS18B20 on the bus
+
 	while (1) {
 
 //	  alarm = checkContactSwitch();
@@ -120,10 +125,22 @@ void softTimerCallback(void) {
   LED_Toggle(LED1);
   LED_Toggle(LED0);
 
-  if (!alarm)
-    println("Door open");
-  else {
-    println("Door closed");
+  static uint8_t counter;
+  double temp;
+
+  // get temperature every 2 seconds
+  switch (counter % 2) {
+  case 0:
+    DS18B20_ConversionStart();
+    break;
+
+  case 1:
+    temp = DS18B20_ReadTemp();
+    println("Temperature = %.2f", temp);
+    break;
+
   }
+
+  counter++;
 
 }
