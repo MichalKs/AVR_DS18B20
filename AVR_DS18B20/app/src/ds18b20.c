@@ -137,10 +137,10 @@ void DS18B20_ReadScratchPad(uint8_t* buf) {
 
   for (int i = 0; i < 9; i++) {
     buf[i] = ONEWIRE_ReadByte();
-    printf("0x%02x ", buf[i]);
+//    printf("0x%02x ", buf[i]);
 
   }
-  printf("\r\n");
+//  printf("\r\n");
 
 }
 /**

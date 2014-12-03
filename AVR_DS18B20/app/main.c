@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include <led.h>
 #include <timers.h>
@@ -41,48 +42,11 @@ void softTimerCallback(void);
 #define println(str, args...) (void)0
 #endif
 
-//#include <avr/io.h>
-
-//void alarmSignalInit(void) {
-//
-//  DDRD |= (1<<3); // output pin
-//  PORTD |= (1<<3); //
-//
-//}
-//
-//void setAlarm(uint8_t val) {
-//
-//  if (val) {
-//    PORTD |= (1<<3);
-//  } else {
-//    PORTD &= ~(1<<3);
-//  }
-//
-//
-//}
-
-//void initContactSwitch(void) {
-//
-//  DDRD &= ~(1<<2); // input pin
-//  PORTD |= (1<<2); // pull up resistor
-//
-//}
-//
-//uint8_t checkContactSwitch(void) {
-//
-//  return !(PIND & (1<<2));
-//}
-
-uint8_t alarm;
-
 /**
  * @brief Main function
  * @return
  */
 int main(void) {
-
-//  initContactSwitch();
-//  alarmSignalInit();
 
   COMM_Init(COMM_BAUD_RATE);
 
@@ -106,13 +70,6 @@ int main(void) {
 
 	while (1) {
 
-//	  alarm = checkContactSwitch();
-//	  if (alarm) {
-//	    setAlarm(1);
-//	  } else {
-//	    setAlarm(0);
-//	  }
-
 	  TIMER_SoftTimersUpdate(); // run timers
 	}
 }
@@ -127,6 +84,7 @@ void softTimerCallback(void) {
 
   static uint8_t counter;
   double temp;
+  char buf[10];
 
   // get temperature every 2 seconds
   switch (counter % 2) {
@@ -136,7 +94,8 @@ void softTimerCallback(void) {
 
   case 1:
     temp = DS18B20_ReadTemp();
-    println("Temperature = %d", (int)temp);
+    dtostrf(temp,3,2,buf);
+    println("Temperature = %s", buf);
     break;
 
   }

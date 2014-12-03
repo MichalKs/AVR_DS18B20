@@ -34,13 +34,18 @@ static volatile uint32_t sysTicks;  ///< Delay timer.
 /**
  * @brief Initialize the SysTick with a given frequency
  * @param freq SysTick frequency
- * TODO Set desired frequency
  * @retval 1 Clock initialization failure
  * @retval 0 Clock initialized properly
  */
 uint8_t SYSTICK_Init(uint32_t freq) {
 
   // board is running at 16 MHz
+
+  // Approximated maximum and minimum freq
+  // for given prescaler value
+  // TODO Change prescaler as a function of freq
+  if ((freq < 980) || (freq > 125000))
+    while(1);
 
   TCCR0 = (1<<CS01) | (1<<CS00); // prescaler 64
   TCCR0 |= (1<<WGM01); // Compare mode
